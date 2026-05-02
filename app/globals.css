@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+:root {
+  --yellow: #FFAF3E;
+  --cold-grey-40: #C4C8CC;
+  --red-medium: #F27480;
+  --black80: #585756;
+  --black60: #828180;
+  --black20-disable: #D5D5D5;
+  --black10: #EAEAE9;
+  --green-dark: #008768;
+  --green-light: #DBFAF3;
+  --blue: #3570B2;
+  --white: #FFFFFF;
+  --grey-40: #ABABAB;
+  --cold-grey: #EBF0F5;
+  --red: #E65562;
+  --black-100: #2E2D2C;
+}
+
+body {
+  background: var(--cold-grey);
+  color: var(--black-100);
+  font-family: 'Open Sans', sans-serif;
+}
