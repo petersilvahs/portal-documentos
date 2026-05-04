@@ -50,8 +50,14 @@ function CampoLabel({
   return (
     <label
       htmlFor={htmlFor}
-      className="block text-sm mb-1 font-normal"
-      style={{ color: '#2E2D2C' }}
+      className="block mb-1"
+      style={{
+        fontWeight: 400,
+        fontSize: '14px',
+        lineHeight: '20px',
+        letterSpacing: 0,
+        color: '#2E2D2C',
+      }}
     >
       {label}
       {obrigatorio && (
@@ -96,6 +102,9 @@ export default function FormularioDocumento({ onSucesso }: FormularioDocumentoPr
 
   function setCampo(key: keyof ReturnType<typeof estadoInicial>, valor: string) {
     setCampos((prev) => ({ ...prev, [key]: valor }))
+    if (erros[key as keyof Erros]) {
+      setErros((prev) => ({ ...prev, [key]: undefined }))
+    }
   }
 
   function handleDocumentoChange(valor: string) {
@@ -116,6 +125,10 @@ export default function FormularioDocumento({ onSucesso }: FormularioDocumentoPr
 
   useEffect(() => {
     const cepLimpo = campos.cep.replace(/\D/g, '')
+    if (cepLimpo.length === 0) {
+      setCampos((prev) => ({ ...prev, rua: '', cidade: '', estado: '' }))
+      return
+    }
     if (cepLimpo.length !== 8) return
 
     const timeout = setTimeout(async () => {
@@ -129,6 +142,7 @@ export default function FormularioDocumento({ onSucesso }: FormularioDocumentoPr
           cidade: dados.localidade,
           estado: dados.uf,
         }))
+        setErros((prev) => ({ ...prev, rua: undefined, cidade: undefined, estado: undefined }))
       } catch {
         setErroCep('CEP não encontrado.')
         setCampos((prev) => ({ ...prev, rua: '', cidade: '', estado: '' }))
@@ -316,7 +330,7 @@ export default function FormularioDocumento({ onSucesso }: FormularioDocumentoPr
             id="numero"
             type="text"
             value={campos.numero}
-            onChange={(e) => setCampo('numero', e.target.value)}
+            onChange={(e) => setCampo('numero', e.target.value.replace(/\D/g, ''))}
             placeholder="Digite aqui"
             className={inputStyle(erros.numero)}
           />
@@ -343,8 +357,8 @@ export default function FormularioDocumento({ onSucesso }: FormularioDocumentoPr
             id="estado"
             type="text"
             value={campos.estado}
-            onChange={(e) => setCampo('estado', e.target.value)}
-            placeholder="Digite aqui"
+            onChange={(e) => setCampo('estado', e.target.value.toUpperCase().replace(/[^A-Z]/g, ''))}
+            placeholder="UF"
             maxLength={2}
             className={inputStyle(erros.estado)}
           />

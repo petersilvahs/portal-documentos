@@ -8,20 +8,6 @@
     "criadoPor": "João da Silva",
     "createdAt": "2021-05-11T00:00:00.000Z"
   },
-  "documentos": [
-    {
-      "nomeDocumento": "Certidão de nascimento",
-      "tipoPessoa": "juridica",
-      "nomePessoa": "Lalala",
-      "documento": "48.262.245/0001-13",
-      "cep": "80420-130",
-      "rua": "Rua Francisco Rocha",
-      "numero": "133",
-      "cidade": "Curitiba",
-      "estado": "PR",
-      "createdAt": "2026-05-02T14:32:52.616Z",
-      "id": "litn6A4HFf8"
-    }
-  ],
+  "documentos": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

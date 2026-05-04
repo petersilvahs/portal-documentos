@@ -39,7 +39,6 @@ export default function CardDocumento({ documento, onRemover }: CardDocumentoPro
         >
           <h4
             style={{
-              fontFamily: 'Open Sans, sans-serif',
               fontWeight: 600,
               fontSize: '20px',
               lineHeight: '32px',
@@ -51,11 +50,15 @@ export default function CardDocumento({ documento, onRemover }: CardDocumentoPro
           <button
             onClick={() => setModalAberto(true)}
             disabled={removendo}
-            className="shrink-0 disabled:opacity-50"
+            className="shrink-0 disabled:opacity-50 transition-opacity"
             aria-label="Remover documento"
             title="Remover documento"
           >
-            <Image src="/delete_black_24dp.svg" alt="Remover" width={24} height={24} />
+            {removendo ? (
+              <div className="w-6 h-6 border-2 border-[#D5D5D5] border-t-[#3570B2] rounded-full animate-spin" />
+            ) : (
+              <Image src="/delete_black_24dp.svg" alt="Remover" width={24} height={24} />
+            )}
           </button>
         </div>
 
@@ -96,7 +99,7 @@ export default function CardDocumento({ documento, onRemover }: CardDocumentoPro
       <ModalConfirmacao
         aberto={modalAberto}
         titulo="Remover documento"
-        mensagem={`Tem certeza que deseja remover "${documento.nomeDocumento}"? Esta ação não pode ser desfeita.`}
+        mensagem="Tem certeza que deseja excluir este documento?"
         onConfirmar={handleConfirmarRemocao}
         onCancelar={() => setModalAberto(false)}
       />

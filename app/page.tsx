@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 import { useDocumentos } from '@/context/DocumentoContext'
-import { StatusPedido } from '@/types'
-import { formatarData } from '@/lib/utils'
 import FormularioDocumento from '@/components/FormularioDocumento'
 import CardDocumento from '@/components/CardDocumento'
 import EmptyState from '@/components/EmptyState'
@@ -13,9 +11,8 @@ import Toast from '@/components/Toast'
 
 const ITENS_POR_PAGINA = 10
 
-function BadgeStatus({ status }: { status: StatusPedido }) {
-  const isAndamento = status === 'em_andamento'
-  const dotColor = isAndamento ? '#FFAF3E' : '#008768'
+function BadgeStatus({ temDocumentos }: { temDocumentos: boolean }) {
+  const dotColor = temDocumentos ? '#FFAF3E' : '#008768'
   return (
     <span
       className="inline-flex items-center gap-1.5 shrink-0"
@@ -34,7 +31,7 @@ function BadgeStatus({ status }: { status: StatusPedido }) {
         className="inline-block rounded-full shrink-0"
         style={{ width: '8px', height: '8px', backgroundColor: dotColor }}
       />
-      {isAndamento ? 'Em andamento' : 'Finalizado'}
+      {temDocumentos ? 'Em andamento' : 'Finalizado'}
     </span>
   )
 }
@@ -59,6 +56,11 @@ export default function PaginaPrincipal() {
     } catch {
       mostrarToast('Erro ao remover o documento.', 'erro')
     }
+  }
+
+  function handleSucesso() {
+    mostrarToast('Documento criado com sucesso', 'sucesso')
+    setPaginaAtual(1)
   }
 
   const totalPaginas = Math.ceil(documentos.length / ITENS_POR_PAGINA)
@@ -89,7 +91,7 @@ export default function PaginaPrincipal() {
             <h2 className="text-base font-bold" style={{ color: '#2E2D2C' }}>
               {pedido.tipo}: {pedido.titulo}
             </h2>
-            <BadgeStatus status={pedido.status} />
+            <BadgeStatus temDocumentos={documentos.length > 0} />
           </div>
           <p className="text-sm leading-5 mb-3" style={{ color: '#2E2D2C' }}>
             <strong>Observação:</strong> {pedido.observacao}
@@ -118,7 +120,6 @@ export default function PaginaPrincipal() {
           <h3
             className="mb-4"
             style={{
-              fontFamily: 'Open Sans, sans-serif',
               fontWeight: 600,
               fontSize: '20px',
               lineHeight: '32px',
@@ -127,7 +128,7 @@ export default function PaginaPrincipal() {
           >
             Adicionar documentos ao pedido
           </h3>
-          <FormularioDocumento onSucesso={() => mostrarToast('Documento criado com sucesso', 'sucesso')} />
+          <FormularioDocumento onSucesso={handleSucesso} />
         </div>
 
         <div className="w-full lg:flex-1">
@@ -145,10 +146,9 @@ export default function PaginaPrincipal() {
               <p
                 className="mb-4"
                 style={{
-                  fontFamily: 'Open Sans, sans-serif',
-                  fontWeight: 700,
-                  fontSize: '24px',
-                  lineHeight: '36px',
+                  fontWeight: 600,
+                  fontSize: '20px',
+                  lineHeight: '32px',
                   color: '#2E2D2C',
                 }}
               >

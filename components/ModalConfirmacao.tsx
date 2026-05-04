@@ -23,6 +23,14 @@ export default function ModalConfirmacao({
     if (aberto) cancelarRef.current?.focus()
   }, [aberto])
 
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') onCancelar()
+    }
+    if (aberto) document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [aberto, onCancelar])
+
   if (!aberto) return null
 
   return (
@@ -37,6 +45,7 @@ export default function ModalConfirmacao({
         className="bg-white flex flex-col w-full mx-4"
         style={{
           maxWidth: '600px',
+          height: '198px',
           boxShadow: '0px 4px 8px #2E2D2C66',
           borderRadius: '4px',
         }}
@@ -45,7 +54,6 @@ export default function ModalConfirmacao({
           <h2
             id="modal-titulo"
             style={{
-              fontFamily: 'Open Sans, sans-serif',
               fontWeight: 600,
               fontSize: '20px',
               lineHeight: '32px',
@@ -68,7 +76,8 @@ export default function ModalConfirmacao({
         <p
           className="px-6"
           style={{
-            font: 'normal normal normal 14px/20px Open Sans',
+            fontSize: '14px',
+            lineHeight: '20px',
             color: '#2E2D2C',
           }}
         >
@@ -92,7 +101,6 @@ export default function ModalConfirmacao({
               borderRadius: '16px',
               border: '1px solid #3570B2',
               background: 'transparent',
-              fontFamily: 'Open Sans, sans-serif',
               fontSize: '14px',
               fontWeight: 600,
               color: '#3570B2',
@@ -109,7 +117,6 @@ export default function ModalConfirmacao({
               borderRadius: '16px',
               border: 'none',
               backgroundColor: '#E65562',
-              fontFamily: 'Open Sans, sans-serif',
               fontSize: '14px',
               fontWeight: 600,
               color: '#FFFFFF',

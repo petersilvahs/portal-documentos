@@ -93,7 +93,6 @@ export default function PaginaDetalhesDocumento() {
           >
             <h1
               style={{
-                fontFamily: 'Open Sans, sans-serif',
                 fontWeight: 600,
                 fontSize: '20px',
                 lineHeight: '32px',
@@ -151,7 +150,7 @@ export default function PaginaDetalhesDocumento() {
       <ModalConfirmacao
         aberto={modalAberto}
         titulo="Confirmar exclusão"
-        mensagem={`Tem certeza que deseja remover "${documento.nomeDocumento}"? Esta ação não pode ser desfeita.`}
+        mensagem="Tem certeza que deseja excluir este documento?"
         onConfirmar={handleRemover}
         onCancelar={() => setModalAberto(false)}
       />
